@@ -1,0 +1,99 @@
+group 'forum2'
+version '1.0'
+
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE")
+        //classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE")
+    }
+}
+
+
+apply plugin: 'war'
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+jar {
+    baseName = 'chapter18gradle'
+    version =  '1.0'
+}
+
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+ext['tomcat.version'] = '7.0.59'
+ext['hibernate.version'] = '4.3.11.Final'
+
+repositories {
+    maven {url 'http://maven.aliyun.com/nexus/content/groups/public'}
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies
+    //compile group: 'org.springframework.boot', name: 'spring-boot-dependencies', version: '1.3.3.RELEASE', ext: 'pom'
+    //这个可以不用spring boot 的gradle插件兼具这个功能
+    //下面spring boot 依赖可以省略版本号 省略的话按照插件的版本来
+    //不使用插件的版本 就要吧版本号写出来
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'//, version: '1.3.3.RELEASE'
+
+    //providedCompile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '1.1.12.RELEASE'
+    //providedCompile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat'//, version: '1.3.3.RELEASE'
+    //上面这一行(去掉版本号)有作用的 取消掉注释 打包出来的jar是放到lib-provided文件夹下
+    //注释掉是放到lib文件夹中
+
+    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
+    runtime group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper'//, version: '7.0.52'
+
+    compile 'jstl:jstl:1.2'
+
+    //compile group:'org.apache.tomcat', name:'tomcat-juli', version:'7.0.59'
+    compile group:'org.apache.tomcat', name:'tomcat-juli', version:property('tomcat.version')
+
+    compile 'commons-dbcp:commons-dbcp:1.4'
+
+    compile 'commons-lang:commons-lang:2.2'
+    compile 'commons-fileupload:commons-fileupload:1.3.1'
+
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    compile 'org.postgresql:postgresql:42.2.5'
+
+    //compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+    //compile 'javax.servlet:jstl:1.2'
+
+    compile group: 'org.apache.shiro', name: 'shiro-web', version: '1.2.4'
+    compile group: 'org.apache.shiro', name: 'shiro-core', version: '1.2.4'
+    compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.2.4'
+
+    testCompile 'com.h2database:h2'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-test-autoconfigure
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-test-autoconfigure'
+
+
+    //上面似乎有一堆依赖是不需要的
+
+    //有个测试插件没有搬过来
+    //可以使用gradle java 插件测试相关的内容替代
+
+
+}
+war{
+}
+
+//几个问题的考虑
+//直接运行时 tomcat的版本
+//打包成jar时 要提供tomcat
+//打包成war 可以提供tomcat 也可以不提供tomcat
+

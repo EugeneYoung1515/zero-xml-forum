@@ -1,0 +1,122 @@
+group 'forum1'
+version '1.0'
+
+/*
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.4.2'
+    }
+}
+*/
+
+
+
+
+apply plugin: 'war'
+//apply plugin: 'com.bmuschko.tomcat'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+    maven {url 'http://maven.aliyun.com/nexus/content/groups/public'}
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework:spring-orm:4.2.2.RELEASE'
+    compile 'org.springframework:spring-tx:4.2.2.RELEASE'
+    compile 'org.springframework:spring-webmvc:4.2.2.RELEASE'
+    compile 'org.springframework:spring-context:4.2.2.RELEASE'
+    compile 'org.springframework:spring-context-support:4.2.2.RELEASE'
+    compile 'org.springframework:spring-beans:4.2.2.RELEASE'
+    compile 'org.springframework:spring-jdbc:4.2.2.RELEASE'
+
+    compile 'commons-lang:commons-lang:2.2'
+    compile 'commons-fileupload:commons-fileupload:1.3.1'
+    compile 'commons-dbcp:commons-dbcp:1.4'
+
+    compile 'javax.persistence:persistence-api:1.0'
+    compile 'org.hibernate:hibernate-core:4.2.0.Final'
+    compile ('org.hibernate:hibernate-ehcache:4.2.0.Final'){
+        //exclude(group:'net.sf.ehcache',module:'ehcache-core')
+    }
+    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
+
+    compile 'net.sf.ehcache:ehcache:2.10.0'//有版本冲突
+
+    compile 'org.slf4j:slf4j-api:1.7.5'
+
+    compile 'org.aspectj:aspectjrt:1.8.1'
+    compile 'org.aspectj:aspectjweaver:1.8.1'
+    compile 'aopalliance:aopalliance:1.0'
+    compile 'javassist:javassist:3.6.0.GA'
+
+    compile 'org.postgresql:postgresql:42.2.5'
+
+    compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+    compile 'javax.servlet:jstl:1.2'
+
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.4'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.7.4'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.4'
+
+    //shiro
+    //compile 'org.apache.shiro:shiro-core:1.2.4'
+    //compile 'org.apache.shiro:shiro-web:1.2.4'
+    //compile 'org.apache.shiro:shiro-spring:1.2.4'
+
+    compile group: 'org.apache.shiro', name: 'shiro-web', version: '1.2.4'
+    compile group: 'org.apache.shiro', name: 'shiro-core', version: '1.2.4'
+    compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.2.4'
+
+    testCompile 'org.springframework:spring-test:4.2.2.RELEASE'
+    testCompile 'org.slf4j:slf4j-log4j12:1.7.5'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile ('org.dbunit:dbunit:2.5.1'){
+        exclude group:'org.slf4j',module:'slf4j-log4j12'
+    }
+    testCompile'com.github.springtestdbunit:spring-test-dbunit:1.2.0'
+    //上面似乎有一堆依赖是不需要的
+
+    //有个测试插件没有搬过来
+    //可以使用gradle java 插件测试相关的内容替代
+
+    /*
+    def tomcatVersion = '7.0.76'
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+*/
+}
+
+war{
+}
+
+/*
+tomcat {
+    httpPort = 8081
+    contextPath = '/forum'
+}
+tomcatRun{
+    URIEncoding= 'UTF-8'
+    reloadable = 'true'
+}
+*/
+
+
+gretty {
+    httpPort = 8081
+    // 'jetty7', 'jetty8', 'jetty9', 'jetty93', 'jetty94', 'tomcat7', 'tomcat8'
+    servletContainer = 'tomcat7'
+    contextPath = '/forum'
+}
+
+
