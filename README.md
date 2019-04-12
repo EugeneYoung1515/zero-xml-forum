@@ -9,7 +9,7 @@
 
 使用js操作DOM、提交表单、监听DOM事件。利用隐藏的表单参数或AJAX构造GET和POST以外的HTTP方法。Restful风格的URL，但仍然使用视图，部分页面功能通过AJAX与后端收发JSON实现。(forum1、forum2)
 
-使用单元测试框架组合(Spring Test+Junit 4+DBUnit+Mockito)，展示简单的简单的单元测试和集成测试例子。(forum1)
+使用单元测试框架组合(Spring Test+Junit 4+DBUnit+Mockito)，展示简单的单元测试和集成测试例子。(forum1)
 
 
 
