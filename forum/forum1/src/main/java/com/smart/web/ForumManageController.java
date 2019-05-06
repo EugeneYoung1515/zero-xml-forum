@@ -95,7 +95,7 @@ public class ForumManageController extends BaseController {
 		return view;
 	}
 	*/
-	@RequestMapping(value = "/forum/setBoardManagerPage", method = RequestMethod.GET)
+	@RequestMapping(value = "/setBoardManagerPage", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String,Object> setBoardManagerPage() {
 		List<Board> boards = forumService.getAllBoards();
@@ -142,7 +142,7 @@ public class ForumManageController extends BaseController {
 		return view;
 	}
 	 */
-	@RequestMapping(value = "/forum/userLockManagePage", method = RequestMethod.GET)
+	@RequestMapping(value = "/userLockManagePage", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> userLockManagePage() {
 		List<User> users = userService.getAllUsers();

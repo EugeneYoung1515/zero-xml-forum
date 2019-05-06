@@ -203,7 +203,8 @@
    <script>
        function test() {
            var request = new XMLHttpRequest();
-           request.open('GET', '/forum/forum/setBoardManagerPage.json');
+           //request.open('GET', '/forum/forum/setBoardManagerPage.json');
+           request.open('GET', '<c:url value="/setBoardManagerPage.json"/>');
            request.setRequestHeader('Content-type','application/json');
            request.onreadystatechange = function () {
                if(request.readyState == 4) {
@@ -311,7 +312,8 @@
    <script>
        function test2() {
            var request = new XMLHttpRequest();
-           request.open('GET', '/forum/forum/userLockManagePage.json');
+           //request.open('GET', '/forum/forum/userLockManagePage.json');
+           request.open('GET', '<c:url value="/userLockManagePage.json"/>');
            request.setRequestHeader('Content-type','application/json');
            request.onreadystatechange = function () {
                if(request.readyState == 4) {

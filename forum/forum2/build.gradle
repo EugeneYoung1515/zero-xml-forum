@@ -20,7 +20,7 @@ apply plugin: 'war'
 apply plugin: 'java'
 apply plugin: 'spring-boot'
 jar {
-    baseName = 'chapter18gradle'
+    baseName = 'forum2'
     version =  '1.0'
 }
 
@@ -42,15 +42,17 @@ dependencies {
     //compile group: 'org.springframework.boot', name: 'spring-boot-dependencies', version: '1.3.3.RELEASE', ext: 'pom'
     //这个可以不用spring boot 的gradle插件兼具这个功能
     //下面spring boot 依赖可以省略版本号 省略的话按照插件的版本来
-    //不使用插件的版本 就要吧版本号写出来
+    //不使用插件的版本 就要把版本号写出来
 
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'//, version: '1.3.3.RELEASE'
 
     //providedCompile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '1.1.12.RELEASE'
-    //providedCompile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat'//, version: '1.3.3.RELEASE'
+    providedCompile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat'//, version: '1.3.3.RELEASE'
     //上面这一行(去掉版本号)有作用的 取消掉注释 打包出来的jar是放到lib-provided文件夹下
     //注释掉是放到lib文件夹中
+
+    //要部署到外部tomcat容器
 
     // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
     runtime group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper'//, version: '7.0.52'
@@ -69,7 +71,7 @@ dependencies {
 
     compile 'org.postgresql:postgresql:42.2.5'
 
-    //compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+    compileOnly 'javax.servlet:javax.servlet-api:3.1.0' //要部署到外部tomcat容器 这个取消了注释
     //compile 'javax.servlet:jstl:1.2'
 
     compile group: 'org.apache.shiro', name: 'shiro-web', version: '1.2.4'
