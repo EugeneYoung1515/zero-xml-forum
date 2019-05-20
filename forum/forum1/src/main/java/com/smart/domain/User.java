@@ -16,6 +16,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.smart.redis.CustomDateDeserialize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -55,6 +58,7 @@ public class User extends BaseDomain {
 	private String lastIp;
 	
 	@Column(name = "last_visit")
+	//@JsonDeserialize(using = CustomDateDeserialize.class)
 	private Date lastVisit;
     
 	private String password;

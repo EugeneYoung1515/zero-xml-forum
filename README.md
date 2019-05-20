@@ -18,3 +18,8 @@
 使用Spring Data JPA替换Hibernate，利用到了Spring Data JPA增删改查和分页查询。(forum2)。
 
 简单展示Spring Boot单元测试相关注解的使用。(forum2)
+
+## 5月20日更新
+- 使用Redis替代PostgreSql，参考《Redis实战》第一章的思路，选择合适的数据结构和命令。
+- Dao层利用Jackson的ObjectMapper类的方法，进行Map、Json和Bean间的转换。或者使用反射编写工具类进行Map和Bean间的转换。在Service层处理多对一关系。
+- 也利用反射实现RedisTemplate不支持的Redis命令。

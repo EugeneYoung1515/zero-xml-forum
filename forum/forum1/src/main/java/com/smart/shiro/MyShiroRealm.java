@@ -2,18 +2,21 @@ package com.smart.shiro;
 
 import com.smart.domain.User;
 import com.smart.service.UserService;
+import com.smart.serviceinterfaces.UserServiceInterface;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 
 public class MyShiroRealm extends AuthorizingRealm {
 
     @Lazy
     @Autowired
-    private UserService userService;
+    @Qualifier("redisUserService")
+    private UserServiceInterface userService;
     /*
     00:28:54 INFO  Bean 'com.smart.config.ShiroConfig' of type [class com.smart.config.ShiroConfig$$EnhancerBySpringCGLIB$$572e61df] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
 00:28:54 INFO  Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$8ed90841] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
@@ -64,11 +67,8 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){return null;}
 
-    public void setUserService(UserService userService) {
+    public void setUserService(UserServiceInterface userService) {
         this.userService = userService;
-    }
-    public UserService getUserService(){
-        return userService;
     }
 }
 

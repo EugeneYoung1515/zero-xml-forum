@@ -2,7 +2,10 @@ package com.smart.service;
 
 import java.util.Date;
 import java.util.List;
+
+import com.smart.serviceinterfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.smart.dao.LoginLogDao;
 import com.smart.dao.UserDao;
@@ -16,10 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class UserService {
+public class UserService implements UserServiceInterface{
 	
 	private UserDao userDao;
 	private LoginLogDao loginLogDao;
+
+	private com.smart.redisdao.LoginLogDao redisLoginLogDao;
+
+	@Autowired
+	@Qualifier("redisLoginLogDao")
+	public void setRedisLoginLogDao(com.smart.redisdao.LoginLogDao redisLoginLogDao) {
+		this.redisLoginLogDao = redisLoginLogDao;
+	}
+
 
 	@Autowired
 	public void setUserDao(UserDao userDao) {
@@ -126,6 +138,8 @@ public class UserService {
 		loginLog.setLoginDate(new Date());
         userDao.update(user);
         loginLogDao.save(loginLog);//一天登录一次加5分比较好
+		redisLoginLogDao.save(loginLog);
+		System.out.println("8848"+redisLoginLogDao.get(6));
 	}	
 	
 }

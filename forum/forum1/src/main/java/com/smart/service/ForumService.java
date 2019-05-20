@@ -3,7 +3,9 @@ package com.smart.service;
 import java.util.Date;
 import java.util.List;
 
+import com.smart.serviceinterfaces.ForumServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.smart.dao.*;
@@ -15,11 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class ForumService {
+public class ForumService implements ForumServiceInterface{
 	private TopicDao topicDao;
 	private UserDao userDao;
 	private BoardDao boardDao;
 	private PostDao postDao;
+
+	private com.smart.redisdao.BoardDao redisBoardDao;
+
+	@Autowired
+	@Qualifier("redisBoardDao")
+	public void setRedisBoardDao(com.smart.redisdao.BoardDao redisBoardDao) {
+		this.redisBoardDao = redisBoardDao;
+	}
 
 	@Autowired
 	public void setTopicDao(TopicDao topicDao) {
@@ -133,6 +143,7 @@ public class ForumService {
 	 */
 	public void addBoard(Board board) {
 		boardDao.save(board);
+		redisBoardDao.save(board);
 	}
 	
 	/**

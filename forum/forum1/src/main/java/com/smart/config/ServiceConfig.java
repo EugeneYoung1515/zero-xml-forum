@@ -21,7 +21,7 @@ import java.util.List;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("com.smart.service")
+@ComponentScan({"com.smart.service","com.smart.redisservice","com.smart.serviceinterfaces"})
 @EnableCaching
 public class ServiceConfig{
 

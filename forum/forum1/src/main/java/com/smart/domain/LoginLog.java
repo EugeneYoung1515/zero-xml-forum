@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.smart.redis.CustomDateDeserialize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -24,6 +26,7 @@ public class LoginLog extends BaseDomain {
 	private int loginLogId;
 	
 	@Column(name = "login_datetime")
+	//@JsonDeserialize(using = CustomDateDeserialize.class)
 	private Date loginDate;
 	
 	@ManyToOne

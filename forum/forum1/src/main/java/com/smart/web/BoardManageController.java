@@ -11,7 +11,9 @@ import com.smart.domain.Post;
 import com.smart.domain.Topic;
 import com.smart.domain.User;
 import com.smart.service.ForumService;
+import com.smart.serviceinterfaces.ForumServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +31,11 @@ import java.util.Date;
 @Controller
 public class BoardManageController extends BaseController {
 
-	private ForumService forumService;
+	private ForumServiceInterface forumService;
 
 	@Autowired
-	public void setForumService(ForumService forumService) {
+	@Qualifier("redisForumService")
+	public void setForumService(ForumServiceInterface forumService) {
 		this.forumService = forumService;
 	}
 

@@ -113,4 +113,8 @@ public class Page implements Serializable {
 	public static int getStartOfPage(int pageNo, int pageSize) {
 		return (pageNo - 1) * pageSize;
 	}//看上面注释 pageNo   从1开始的页号
+
+	public List getData() {
+		return data;
+	}
 }

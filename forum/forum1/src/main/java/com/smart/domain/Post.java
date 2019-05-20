@@ -1,5 +1,7 @@
 package com.smart.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.smart.redis.CustomDateDeserialize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -29,6 +31,7 @@ public class Post extends BaseDomain {
 	private int boardId;
 
 	@Column(name = "create_time")
+	//@JsonDeserialize(using = CustomDateDeserialize.class)
 	private Date createTime;
 
 	@ManyToOne

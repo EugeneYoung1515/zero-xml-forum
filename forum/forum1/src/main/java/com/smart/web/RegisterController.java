@@ -5,7 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.smart.serviceinterfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,10 +25,11 @@ public class RegisterController extends BaseController {
 	/**
 	 * 自动注入
 	 */
-	private UserService userService;
+	private UserServiceInterface userService;
 
 	@Autowired
-	public void setUserService(UserService userService) {
+	@Qualifier("redisUserService")
+	public void setUserService(UserServiceInterface userService) {
 		this.userService = userService;
 	}
 

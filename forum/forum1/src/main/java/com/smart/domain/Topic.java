@@ -1,5 +1,8 @@
 package com.smart.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.smart.redis.CustomDateDeserialize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -35,12 +38,15 @@ public class Topic extends BaseDomain {
 	private int boardId;
 
 	@Transient
+	@JsonIgnore//这个是加了Redis 要用Json的Map POJO互转时加的
 	private MainPost mainPost = new MainPost();
 
 	@Column(name = "last_post")
+	//@JsonDeserialize(using = CustomDateDeserialize.class)
 	private Date lastPost = new Date();
 
 	@Column(name = "create_time")
+	//@JsonDeserialize(using = CustomDateDeserialize.class)
 	private Date createTime = new Date();
 
 	@Column(name = "topic_views")

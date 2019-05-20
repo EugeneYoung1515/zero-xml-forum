@@ -3,12 +3,14 @@ package com.smart.web;
 import com.smart.cons.CommonConstant;
 import com.smart.domain.User;
 import com.smart.service.UserService;
+import com.smart.serviceinterfaces.UserServiceInterface;
 import com.smart.shiro.IncorrectCaptchaException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,10 +27,11 @@ import java.util.Date;
 @RequestMapping("/login")
 public class ShiroLoginController extends BaseController {
 
-	private UserService userService;
+	private UserServiceInterface userService;
 
 	@Autowired
-	public void setUserService(UserService userService) {
+	@Qualifier("redisUserService")
+	public void setUserService(UserServiceInterface userService) {
 		this.userService = userService;
 	}
 

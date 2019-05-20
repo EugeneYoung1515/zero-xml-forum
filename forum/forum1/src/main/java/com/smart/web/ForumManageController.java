@@ -5,7 +5,10 @@ import com.smart.domain.Board;
 import com.smart.domain.User;
 import com.smart.service.ForumService;
 import com.smart.service.UserService;
+import com.smart.serviceinterfaces.ForumServiceInterface;
+import com.smart.serviceinterfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,17 +24,19 @@ import java.util.*;
  */
 @Controller
 public class ForumManageController extends BaseController {
-	private ForumService forumService;
+	private ForumServiceInterface forumService;
 
-	private UserService userService;
+	private UserServiceInterface userService;
 
 	@Autowired
-	public void setForumService(ForumService forumService) {
+	@Qualifier("redisForumService")
+	public void setForumService(ForumServiceInterface forumService) {
 		this.forumService = forumService;
 	}
 
 	@Autowired
-	public void setUserService(UserService userService) {
+	@Qualifier("redisUserService")
+	public void setUserService(UserServiceInterface userService) {
 		this.userService = userService;
 	}
 
