@@ -13,6 +13,8 @@ public class ReflectionUtil2 {
         Class<?> clazz = obj.getClass();
         Method[] methods = clazz.getMethods();//这里和下面从getDeclareMethod换成getMethod才对
         //原因不懂 mainPost赋给Post引用变量 上面的应该推断为Post 使用 getDeclareMethod应该是对
+
+        //原因知道了 T推断为Post 但是getClass() 被子类重写 getClass()出来 就是MainPost
         for(Method method:methods){
             String methodName = method.getName();
             //System.out.println(methodName);
