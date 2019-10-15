@@ -12,6 +12,8 @@ import com.smart.domain.Topic;
 import com.smart.domain.User;
 import com.smart.service.ForumService;
 import com.smart.serviceinterfaces.ForumServiceInterface;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -63,6 +65,7 @@ public class BoardManageController extends BaseController {
 	 * 删除版块
 	 */
 	@RequestMapping(value = "/boards/{boardIds}", method = RequestMethod.DELETE)
+	@RequiresPermissions("sys:man")
 	public String removeBoard(@PathVariable String boardIds) {
 		String[] arrIds = boardIds.split(",");
 		for (int i = 0; i < arrIds.length; i++) {
@@ -155,6 +158,7 @@ public class BoardManageController extends BaseController {
 	 * 删除主题
 	 */
 	@RequestMapping(value = "/boards/{boardId}/topics/{topicIds}", method = RequestMethod.DELETE)
+	@RequiresPermissions(value = {"sys:man","board:man"},logical = Logical.OR)
 	public String removeTopic(@PathVariable String topicIds,@PathVariable String boardId) {
 		String[] arrIds = topicIds.split(",");
 		for (int i = 0; i < arrIds.length; i++) {
@@ -168,6 +172,7 @@ public class BoardManageController extends BaseController {
 	 * 设置精华帖
 	 */
 	@RequestMapping(value = "/boards/{boardId}/topics/{topicIds}", method = RequestMethod.PATCH)
+	@RequiresPermissions(value = {"sys:man","board:man"},logical = Logical.OR)
 	public String makeDigestTopic(@PathVariable String topicIds,@PathVariable String boardId) {
 		String[] arrIds = topicIds.split(",");
 		for (int i = 0; i < arrIds.length; i++) {

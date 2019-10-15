@@ -18,11 +18,12 @@
 <c:if test="${!empty shiroLoginFailure}">
 	<div style="color:red">${shiroLoginFailure}</div>
 </c:if>
-
-<form action="${context}/login/doLogin.html" method="post">
 <!--
-<form action="${context}/login/login.html" method="post">
+<form action="${context}/login/doLogin.html" method="post">
 -->
+
+<form action="${context}/login/login.html" method="post">
+
 <table border="1px">
 	<tr>
 		<td width="20%">用户名</td>

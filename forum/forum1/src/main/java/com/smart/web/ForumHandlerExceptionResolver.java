@@ -12,7 +12,8 @@ public class ForumHandlerExceptionResolver extends
 			javax.servlet.http.HttpServletRequest httpServletRequest,
 			javax.servlet.http.HttpServletResponse httpServletResponse,
 			java.lang.Object o, java.lang.Exception e) {
-		httpServletRequest.setAttribute("ex", e);
+		//httpServletRequest.setAttribute("ex", e);
+		httpServletRequest.setAttribute("errorMsg",e);
 		e.printStackTrace();
 		return super.doResolveException(httpServletRequest,
 				httpServletResponse, o, e);

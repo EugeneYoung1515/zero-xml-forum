@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.smart.serviceinterfaces.UserServiceInterface;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -44,6 +46,14 @@ public class RegisterController extends BaseController {
 		ModelAndView view = new ModelAndView();
 		view.setViewName("/success");
 		try {
+			user.setPassword(new SimpleHash("MD5",user.getPassword(), ByteSource.Util.bytes(user.getUserName()),3).toHex());
+			/*
+			盐可以使用用户名等可以确定的东西
+
+			也可以随机生成 再注册时要把随机生成的盐也保存到数据库 realm那里认证时 要把盐取出来 用于加密
+			RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
+			randomNumberGenerator.nextBytes().toHex()
+			 */
 			userService.register(user);
 		} catch (UserExistException e) {
 			view.addObject("errorMsg", "用户名已经存在，请选择其它的名字。");

@@ -8,6 +8,7 @@ import com.smart.redisdao.TopicDao;
 import com.smart.redisdao.UserDao;
 import com.smart.serviceinterfaces.ForumServiceInterface;
 import com.smart.utils.RequestHolderUtil;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,18 @@ public class RedisForumService implements ForumServiceInterface {
         //但是有一个问题
         //就是要把 topic先save 才有id 之后post里的topic才有id
         //但是topic先save 就topic就没有关于post的信息
+
+
+        updateSessionUser(user);
+        /*
+controller层addtopic从会话里拿到user
+service更新了user的属性
+addpost也一样
+
+问题是会话属性中的对象更新了实例变量
+
+要手动重新设置会话属性
+         */
     }
 
     @Override
@@ -100,6 +113,9 @@ public class RedisForumService implements ForumServiceInterface {
 
         post.setTopic(topic);
         redisPostDao.save(post);
+
+
+        updateSessionUser(user);
     }
 
     @Override
@@ -130,10 +146,22 @@ public class RedisForumService implements ForumServiceInterface {
     }
 
     private void updateSessionUser(User user){
-        User sessionUser = (User)RequestHolderUtil.getSession().getAttribute(USER_CONTEXT);
-        if(sessionUser.getUserId()==user.getUserId()){
-            RequestHolderUtil.getSession().setAttribute(USER_CONTEXT,user);
-        }
+        User sessionUser;
+
+        //if((user.getCredit()/100)%2==0) {
+            /*User*/ sessionUser = (User) RequestHolderUtil.getSession().getAttribute(USER_CONTEXT);
+            if (sessionUser.getUserId() == user.getUserId()) {
+                RequestHolderUtil.getSession().setAttribute(USER_CONTEXT, user);
+            }
+        //}else {
+
+        /*User*/
+            //sessionUser = (User) SecurityUtils.getSubject().getSession().getAttribute(USER_CONTEXT);
+            //if (sessionUser.getUserId() == user.getUserId()) {
+                //SecurityUtils.getSubject().getSession().setAttribute(USER_CONTEXT, user);
+            //}
+        //}
+
     }
 
     @Override

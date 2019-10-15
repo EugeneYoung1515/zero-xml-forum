@@ -7,6 +7,7 @@ import com.smart.service.ForumService;
 import com.smart.service.UserService;
 import com.smart.serviceinterfaces.ForumServiceInterface;
 import com.smart.serviceinterfaces.UserServiceInterface;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -57,6 +58,8 @@ public class ForumManageController extends BaseController {
 	 *  添加一个主题帖
 	 * @return
 	 */
+
+	@RequiresPermissions("sys:man")
 	@RequestMapping(value = "/addBoardPage", method = RequestMethod.GET)
 	//和这里没有匹配
 	public String addBoardPage() {
@@ -68,6 +71,8 @@ public class ForumManageController extends BaseController {
 	 * @param board
 	 * @return
 	 */
+
+	@RequiresPermissions("sys:man")
 	@RequestMapping(value = "/boards", method = RequestMethod.PUT)//原来jsp addboard中 加了一行 使得请求方法变成put
 	//这里要从post改成put
 
@@ -100,6 +105,8 @@ public class ForumManageController extends BaseController {
 		return view;
 	}
 	*/
+
+	@RequiresPermissions("sys:man")
 	@RequestMapping(value = "/setBoardManagerPage", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String,Object> setBoardManagerPage() {
@@ -115,6 +122,8 @@ public class ForumManageController extends BaseController {
      * 设置版块管理
      * @return
      */
+
+	@RequiresPermissions("sys:man")
 	@RequestMapping(value = "/users/managers", method = RequestMethod.PATCH)
 	public ModelAndView setBoardManager(@RequestParam("userName") String userName
 			,@RequestParam("boardId") String boardId) {
@@ -147,6 +156,8 @@ public class ForumManageController extends BaseController {
 		return view;
 	}
 	 */
+
+	@RequiresPermissions("sys:man")
 	@RequestMapping(value = "/userLockManagePage", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> userLockManagePage() {
@@ -160,6 +171,8 @@ public class ForumManageController extends BaseController {
 	 * 用户锁定及解锁设定
 	 * @return
 	 */
+
+	@RequiresPermissions("sys:man")
 	@RequestMapping(value = "/users/locks", method = RequestMethod.PATCH)
 	public ModelAndView userLockManage(@RequestParam("userName") String userName
 			,@RequestParam("locked") String locked) {

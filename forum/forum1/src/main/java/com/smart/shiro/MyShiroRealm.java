@@ -1,15 +1,24 @@
 package com.smart.shiro;
 
+import com.smart.domain.Board;
 import com.smart.domain.User;
 import com.smart.service.UserService;
 import com.smart.serviceinterfaces.UserServiceInterface;
+import com.smart.utils.RequestHolderUtil;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class MyShiroRealm extends AuthorizingRealm {
 
@@ -55,17 +64,62 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
 
         //验证通过返回一个封装了用户信息的AuthenticationInfo实例即可。
+        /*
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 dbUser, //用户信息
                 dbUser.getPassword(), //密码
                 getName() //realm name
-        );
+        );//换成了加盐的
+        */
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+                dbUser, //用户信息
+                dbUser.getPassword(), //密码
+                //ByteSource.Util.bytes(username),//盐
+                new SerializableByteSource(username),
+                getName() //realm name
+        );//换成了加盐的
         return authenticationInfo;
     }
 
     //当访问到页面的时候，链接配置了相应的权限或者shiro标签才会执行此方法否则不会执行
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){return null;}
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){
+        //return null;
+
+        System.out.println("doGetAuthorizationInfo");
+        User user = (User) principals.fromRealm(getName()).iterator().next();
+        if(user!=null){
+            SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+            List<String> permsList = new ArrayList<>(10);
+            if(user.getUserType()==2){
+                permsList.add("sys:man");
+                info.addStringPermissions(permsList);
+            }else{
+                HttpServletRequest request = RequestHolderUtil.getRequest();
+                String contextRelativePath = request.getRequestURI().substring(request.getContextPath().length());
+                System.out.println(contextRelativePath);
+                if (contextRelativePath.contains("board")) {
+                    int boardId = Integer.parseInt(contextRelativePath.split("/")[2]);
+                    Set<Board> boardSet = user.getManBoards();
+                    boolean flag = false;
+                    for (Board board : boardSet) {
+                        if (board.getBoardId() == boardId) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        permsList.add("board:man");
+                    }
+                    info.addStringPermissions(permsList);
+                }else{
+                    return null;//或者不加权限 空list行吗
+                }
+            }
+            return info;
+        }
+        return null;
+    }
 
     public void setUserService(UserServiceInterface userService) {
         this.userService = userService;

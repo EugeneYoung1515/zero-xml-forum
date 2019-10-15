@@ -77,6 +77,8 @@ public class ShiroLoginController extends BaseController {
 	 * @return
 	 */
 
+
+	/*
 	@RequestMapping("/doLogin")
 	public ModelAndView login(HttpServletRequest request, User user,boolean rememberMe) {//能设置rememberMe cookies到浏览器中 但是好像不起作用 rememberMe cookies似乎要结合过滤器才能起作用 能起作用 4月10日改
 		Subject subject = SecurityUtils.getSubject();
@@ -135,13 +137,17 @@ public class ShiroLoginController extends BaseController {
 
 		return mav;
 	}
+	*/
 
-	/*这样可以 但是登录成功了不能设置会话属性
+	//加了下面的 还有 AfterShiroFilter
+
+	//*这样可以 但是登录成功了不能设置会话属性
+
 	@RequestMapping("/login")
 	public String login(){
 		return "login";
 	}
-	*/
+
 
 	/**
 	 * 登录注销
@@ -149,7 +155,8 @@ public class ShiroLoginController extends BaseController {
 	 * @return
 	 */
 
-	/*//交给shiro的logout过滤器
+	/*
+	//交给shiro的logout过滤器
 	@RequestMapping("/doLogout")
 	public String logout(HttpSession session) {
 		//session.removeAttribute(CommonConstant.USER_CONTEXT);
